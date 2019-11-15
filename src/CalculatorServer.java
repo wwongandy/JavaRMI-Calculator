@@ -74,22 +74,22 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 	}
 
 	@Override
-	public int add(int num1, int num2) throws RemoteException {
+	public float add(float num1, float num2) throws RemoteException {
 		return num1 + num2;
 	}
 
 	@Override
-	public int minus(int num1, int num2) throws RemoteException {
+	public float minus(float num1, float num2) throws RemoteException {
 		return num1 - num2;
 	}
 
 	@Override
-	public int multiply(int num1, int num2) throws RemoteException {
+	public float multiply(float num1, float num2) throws RemoteException {
 		return num1 * num2;
 	}
 
 	@Override
-	public int divide(int num1, int num2) throws RemoteException {
+	public float divide(float num1, float num2) throws RemoteException {
 		return num1 / num2;
 	};
 }

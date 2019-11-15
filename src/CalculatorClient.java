@@ -66,11 +66,11 @@ public class CalculatorClient {
 			return;
 		};
 		
-		int num1 = Integer.parseInt(calculatorHistory[0]);
-		int num2 = Integer.parseInt(calculatorHistory[2]);
+		float num1 = Float.parseFloat(calculatorHistory[0]);
+		float num2 = Float.parseFloat(calculatorHistory[2]);
 		
 		try {
-			int result = 0;
+			float result = 0;
 			
 			switch (calculatorHistory[1]) {
 				case "+":
