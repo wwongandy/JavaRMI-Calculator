@@ -3,12 +3,14 @@
  */
 
 import java.awt.EventQueue;
+import java.rmi.Naming;
 
 import javax.swing.JFrame;
 
 public class CalculatorClient {
 
 	private JFrame frame;
+	private Calculator calculator;
 
 	/**
 	 * Launch the application.
@@ -17,8 +19,8 @@ public class CalculatorClient {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CalculatorClient window = new CalculatorClient();
-					window.frame.setVisible(true);
+					CalculatorClient client = new CalculatorClient();
+					client.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -31,6 +33,7 @@ public class CalculatorClient {
 	 */
 	public CalculatorClient() {
 		initialize();
+		getCalculatorHandler();
 	}
 
 	/**
@@ -41,5 +44,17 @@ public class CalculatorClient {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+	
+	/**
+	 * Retrieves the calculator handler instance via RMI.
+	 */
+	private void getCalculatorHandler() {
+		try {
+			calculator = (Calculator) Naming.lookup("//localhost/CalculatorServer");
+			System.out.println("Retrieved calculator instance binded in CalculatorServer");
+		} catch (Exception e) {
+			System.out.println("Client error: " + e);
+			// e.printStackTrace();
+		}
+	};
 }
