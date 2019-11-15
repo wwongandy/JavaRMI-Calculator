@@ -4,6 +4,7 @@
 
 import java.awt.EventQueue;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 
 import javax.swing.JFrame;
 
@@ -59,6 +60,42 @@ public class CalculatorClient {
 			// e.printStackTrace();
 		}
 	};
+	
+	private void doCalculation() {
+		if (calculatorHistory.length != 3) {
+			return;
+		};
+		
+		int num1 = Integer.parseInt(calculatorHistory[0]);
+		int num2 = Integer.parseInt(calculatorHistory[2]);
+		
+		try {
+			int result = 0;
+			
+			switch (calculatorHistory[1]) {
+				case "+":
+					result = calculator.add(num1, num2);
+					break;
+					
+				case "-":
+					result = calculator.minus(num1, num2);
+					break;
+					
+				case "*":
+					result = calculator.multiply(num1, num2);
+					break;
+					
+				case "/":
+					result = calculator.divide(num1, num2);
+					break;
+			}
+			
+			System.out.println("Result calculated: " + result);
+		} catch (RemoteException e) {
+			System.out.println("Client error " + e);
+			// e.printStackTrace("Client error: " + e);
+		}
+	}
 	
 	/**
 	 * Resets the calculator history.
