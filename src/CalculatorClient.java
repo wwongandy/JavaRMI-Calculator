@@ -11,7 +11,7 @@ public class CalculatorClient {
 
 	private JFrame frame;
 	private Calculator calculator;
-	private String[] calculatorHistory; // Most recently selected numbers and operations
+	private String[] calculatorHistory; // Most recently selected numbers and operations: [number, operation, number]
 
 	/**
 	 * Launch the application.
@@ -33,8 +33,7 @@ public class CalculatorClient {
 	 * Create the application.
 	 */
 	public CalculatorClient() {
-		calculatorHistory = new String[3]; // [number, operation, number]
-		
+		clearCalculatorHistory();
 		initialize();
 		getCalculatorHandler();
 	}
@@ -60,6 +59,13 @@ public class CalculatorClient {
 			// e.printStackTrace();
 		}
 	};
+	
+	/**
+	 * Resets the calculator history.
+	 */
+	private void clearCalculatorHistory() { 
+		calculatorHistory = new String[3];
+	}
 	
 	/**
 	 * Triggered when a number button in the calculator is pressed.
