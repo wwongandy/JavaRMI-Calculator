@@ -62,5 +62,29 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 			System.out.println("Server error: " + e);
 			// e.printStackTrace();
 		}
+	}
+
+	@Override
+	public int add(int num1, int num2) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int minus(int num1, int num2) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int multiply(int num1, int num2) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int divide(int num1, int num2) throws RemoteException {
+		// TODO Auto-generated method stub
+		return 0;
 	};
 }
