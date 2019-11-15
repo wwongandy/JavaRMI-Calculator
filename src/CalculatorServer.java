@@ -5,6 +5,8 @@
 
 import java.awt.EventQueue;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import javax.swing.JFrame;
@@ -20,10 +22,16 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CalculatorServer window = new CalculatorServer();
-					window.frame.setVisible(true);
+					CalculatorServer server = new CalculatorServer();
+					server.frame.setVisible(true);
+
+					// Bind this class' instance to the LocalHost registry, so it can be usable via RMI
+					Registry registry = LocateRegistry.createRegistry(1099);
+					registry.rebind("CalculatorServer", server);
+					System.out.println("CalculatorServer bound in registry");
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println("Server error: " + e);
+					// e.printStackTrace();
 				}
 			}
 		});
