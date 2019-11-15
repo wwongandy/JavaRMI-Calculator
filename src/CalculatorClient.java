@@ -13,7 +13,7 @@ public class CalculatorClient {
 	private JFrame frame;
 	private Calculator calculator;
 	private String[] calculatorHistory; // Most recently selected numbers and operations: [number, operation, number]
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -58,9 +58,14 @@ public class CalculatorClient {
 		} catch (Exception e) {
 			System.out.println("Client error: " + e);
 			// e.printStackTrace();
+			
+			System.exit(0);
 		}
 	};
 	
+	/**
+	 * Performs the calculation process using the RMI instance's calculator.
+	 */
 	private void doCalculation() {
 		if (calculatorHistory.length != 3) {
 			return;
