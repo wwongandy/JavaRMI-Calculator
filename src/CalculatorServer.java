@@ -11,10 +11,12 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 public class CalculatorServer extends UnicastRemoteObject implements Calculator {
 
 	private JFrame frame;
+	private JTextArea consoleScreen;
 
 	/**
 	 * Launch the application.
@@ -47,6 +49,11 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		consoleScreen = new JTextArea();
+		consoleScreen.setEditable(false);
+		consoleScreen.setBounds(5, 5, 430, 250);
+		frame.getContentPane().add(consoleScreen);
 	}
 	
 	/**
@@ -58,8 +65,10 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 			registry.rebind("CalculatorServer", this);
 
 			System.out.println("CalculatorServer bound in registry");
+			consoleScreen.append("CalculatorServer bound in registry");
 		} catch (Exception e) {
 			System.out.println("Server error: " + e);
+			consoleScreen.append("Server error: " + e);
 			// e.printStackTrace();
 		}
 	}
