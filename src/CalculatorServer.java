@@ -4,6 +4,7 @@
  */
 
 import java.awt.EventQueue;
+import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -24,13 +25,7 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 				try {
 					CalculatorServer server = new CalculatorServer();
 					server.frame.setVisible(true);
-
-					// Bind this class' instance to the LocalHost registry, so it can be usable via RMI
-					Registry registry = LocateRegistry.createRegistry(1099);
-					registry.rebind("CalculatorServer", server);
-					System.out.println("CalculatorServer bound in registry");
 				} catch (Exception e) {
-					System.out.println("Server error: " + e);
 					// e.printStackTrace();
 				}
 			}
@@ -42,6 +37,7 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 	 */
 	public CalculatorServer() throws RemoteException {
 		initialize();
+		bindToRegistry();
 	}
 
 	/**
@@ -52,5 +48,19 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
+	/**
+	 * Bind this class' instance to the LocalHost registry, so it can be usable via RMI
+	 */
+	private void bindToRegistry() {
+		try {
+			Registry registry = LocateRegistry.createRegistry(1099);
+			registry.rebind("CalculatorServer", this);
 
+			System.out.println("CalculatorServer bound in registry");
+		} catch (Exception e) {
+			System.out.println("Server error: " + e);
+			// e.printStackTrace();
+		}
+	};
 }

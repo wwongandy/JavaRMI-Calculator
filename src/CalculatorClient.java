@@ -22,7 +22,7 @@ public class CalculatorClient {
 					CalculatorClient client = new CalculatorClient();
 					client.frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					// e.printStackTrace();
 				}
 			}
 		});
