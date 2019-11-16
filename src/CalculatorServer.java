@@ -75,25 +75,25 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 
 	@Override
 	public float add(float num1, float num2) throws RemoteException {
-		consoleScreen.append(num1 + " + " + num2);
+		consoleScreen.append(num1 + " + " + num2 + "\n");
 		return num1 + num2;
 	}
 
 	@Override
 	public float minus(float num1, float num2) throws RemoteException {
-		consoleScreen.append(num1 + " - " + num2);
+		consoleScreen.append(num1 + " - " + num2 + "\n");
 		return num1 - num2;
 	}
 
 	@Override
 	public float multiply(float num1, float num2) throws RemoteException {
-		consoleScreen.append(num1 + " * " + num2);
+		consoleScreen.append(num1 + " * " + num2 + "\n");
 		return num1 * num2;
 	}
 
 	@Override
 	public float divide(float num1, float num2) throws RemoteException {
-		consoleScreen.append(num1 + " / " + num2);
+		consoleScreen.append(num1 + " / " + num2 + "\n");
 		return num1 / num2;
 	};
 }

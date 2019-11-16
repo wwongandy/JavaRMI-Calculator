@@ -10,15 +10,17 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
 
 public class CalculatorClient {
 
 	// Swing GUI management
 	private JFrame frame;
 	private JTextPane inputOutputScreen;
-	private JTextPane consoleScreen;
+	private JTextArea consoleScreen;
 	
 	// Calculator management
 	private Calculator calculator;
@@ -62,11 +64,6 @@ public class CalculatorClient {
 		inputOutputScreen.setEditable(false);
 		inputOutputScreen.setBounds(10, 10, 180, 80);
 		frame.getContentPane().add(inputOutputScreen);
-		
-		consoleScreen = new JTextPane();
-		consoleScreen.setEditable(false);
-		consoleScreen.setBounds(10, 250, 180, 80);
-		frame.getContentPane().add(consoleScreen);
 		
 		JButton buttonDivide = new JButton("/");
 		buttonDivide.addActionListener(new ActionListener() {
@@ -202,6 +199,14 @@ public class CalculatorClient {
 		});
 		buttonSubmit.setBounds(100, 210, 90, 40);
 		frame.getContentPane().add(buttonSubmit);
+		
+		consoleScreen = new JTextArea();
+		consoleScreen.setEditable(false);
+		consoleScreen.setBounds(10, 250, 180, 80);
+		
+		JScrollPane scrollPane = new JScrollPane(consoleScreen);
+		scrollPane.setBounds(10, 250, 180, 80);
+		frame.getContentPane().add(scrollPane);
 	}
 	
 	/**
@@ -210,9 +215,12 @@ public class CalculatorClient {
 	private void getCalculatorHandler() {
 		try {
 			calculator = (Calculator) Naming.lookup("//localhost/CalculatorServer");
+			
 			System.out.println("Retrieved calculator instance binded in CalculatorServer");
+			consoleScreen.append("Retrieved calculator instance binded in CalculatorServer\n");
 		} catch (Exception e) {
 			System.out.println("Client error: " + e);
+			consoleScreen.append("Client error: " + e + "\n");
 			// e.printStackTrace();
 			
 			System.exit(0);
@@ -220,11 +228,40 @@ public class CalculatorClient {
 	};
 	
 	/**
+	 * Displays the current calculator history onto the input/output screen and logs any changes to the console.
+	 */
+	private void updateInputOutputScreens() {
+		
+		String resultString = "";
+		for (String s : calculatorHistory) {
+			resultString += s + " ";
+		}
+		
+		inputOutputScreen.setText(resultString);
+		consoleScreen.append(resultString + "\n");
+	}
+	
+	/**
+	 * Displays the given calculator result onto the input/output screen and console.
+	 * 
+	 * @param result
+	 */
+	private void updateInputOutputScreens(String resultString) {
+		inputOutputScreen.setText(resultString);
+		consoleScreen.append(resultString + "\n");
+	}
+	
+	/**
 	 * Performs the calculation process using the RMI instance's calculator.
 	 */
 	private void doCalculation() {
 		
 		ArrayList<String> _calculatorHistory = (ArrayList<String>) calculatorHistory.clone();
+		
+		if (_calculatorHistory.size() == 0) {
+			consoleScreen.append("No input given\n");
+			return;
+		};
 		
 		try {
 			// MDAS (Multiply, divide, addition, subtract)
@@ -273,6 +310,7 @@ public class CalculatorClient {
 				}
 			}
 			
+			updateInputOutputScreens(_calculatorHistory.get(0));
 			clearCalculatorHistory();
 		} catch (RemoteException e) {
 			System.out.println("Client error: " + e);
@@ -309,6 +347,8 @@ public class CalculatorClient {
 				calculatorHistory.set(lastIndex, recent + "" + number);
 			}
 		};
+		
+		updateInputOutputScreens();
 	}
 	
 	/**
@@ -330,5 +370,7 @@ public class CalculatorClient {
 				calculatorHistory.add(operation);
 			}
 		};
+		
+		updateInputOutputScreens();
 	}
 }
