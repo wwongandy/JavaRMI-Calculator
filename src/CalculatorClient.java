@@ -197,6 +197,7 @@ public class CalculatorClient {
 		JButton buttonSubmit = new JButton("Submit");
 		buttonSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				doCalculation();
 			}
 		});
 		buttonSubmit.setBounds(100, 210, 90, 40);
@@ -223,6 +224,60 @@ public class CalculatorClient {
 	 */
 	private void doCalculation() {
 		
+		ArrayList<String> _calculatorHistory = (ArrayList<String>) calculatorHistory.clone();
+		
+		try {
+			// MDAS (Multiply, divide, addition, subtract)
+			String[] operations = {"*", "/", "+", "-"};
+			
+			for (int i = 0; i < operations.length; i++) {
+				String currentOperation = operations[i];
+				int nextIndex = _calculatorHistory.indexOf(currentOperation);
+				
+				while (nextIndex != -1) {
+			
+					// Get the two numbers for the operation (operation - 1, operation + 1)
+					if (nextIndex != _calculatorHistory.size() - 1) {
+						float num1 = Float.parseFloat(_calculatorHistory.get(nextIndex - 1));
+						float num2 = Float.parseFloat(_calculatorHistory.get(nextIndex + 1));
+						float result = 0;
+						
+						// Perform appropriate calculation
+						switch(currentOperation) {
+							case "*":
+								result = calculator.multiply(num1, num2);
+								break;
+								
+							case "/":
+								result = calculator.divide(num1, num2);
+								break;
+								
+							case "+":
+								result = calculator.add(num1, num2);
+								break;
+								
+							case "-":
+								result = calculator.minus(num1, num2);
+								break;
+						}
+						
+						// Replace with resulting value
+						_calculatorHistory.remove(nextIndex + 1);
+						_calculatorHistory.remove(nextIndex);
+						_calculatorHistory.set(nextIndex - 1, Float.toString(result));
+					} else {
+						_calculatorHistory.remove(nextIndex);
+					};
+					
+					nextIndex = _calculatorHistory.indexOf(currentOperation);
+				}
+			}
+			
+			clearCalculatorHistory();
+		} catch (RemoteException e) {
+			System.out.println("Client error: " + e);
+			// e.printStackTrace();
+		}
 	}
 	
 	/**
