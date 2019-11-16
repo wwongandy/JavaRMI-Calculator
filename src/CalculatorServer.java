@@ -12,6 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
 
 public class CalculatorServer extends UnicastRemoteObject implements Calculator {
 
@@ -49,11 +50,15 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
 		consoleScreen = new JTextArea();
 		consoleScreen.setEditable(false);
-		consoleScreen.setBounds(5, 5, 430, 250);
-		frame.getContentPane().add(consoleScreen);
+		consoleScreen.setBounds(0, 0, 436, 263);
+		
+		JScrollPane scrollPane = new JScrollPane(consoleScreen);
+		scrollPane.setBounds(0, 0, 430, 260);
+		frame.getContentPane().add(scrollPane);
 	}
 	
 	/**
