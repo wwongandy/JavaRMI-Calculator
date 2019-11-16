@@ -65,7 +65,7 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 			registry.rebind("CalculatorServer", this);
 
 			System.out.println("CalculatorServer bound in registry");
-			consoleScreen.append("CalculatorServer bound in registry");
+			consoleScreen.append("CalculatorServer bound in registry\n");
 		} catch (Exception e) {
 			System.out.println("Server error: " + e);
 			consoleScreen.append("Server error: " + e);
@@ -75,21 +75,25 @@ public class CalculatorServer extends UnicastRemoteObject implements Calculator 
 
 	@Override
 	public float add(float num1, float num2) throws RemoteException {
+		consoleScreen.append(num1 + " + " + num2);
 		return num1 + num2;
 	}
 
 	@Override
 	public float minus(float num1, float num2) throws RemoteException {
+		consoleScreen.append(num1 + " - " + num2);
 		return num1 - num2;
 	}
 
 	@Override
 	public float multiply(float num1, float num2) throws RemoteException {
+		consoleScreen.append(num1 + " * " + num2);
 		return num1 * num2;
 	}
 
 	@Override
 	public float divide(float num1, float num2) throws RemoteException {
+		consoleScreen.append(num1 + " / " + num2);
 		return num1 / num2;
 	};
 }
